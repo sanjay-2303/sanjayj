@@ -5,12 +5,14 @@ interface RevealOnScrollProps {
   children: React.ReactNode;
   threshold?: number;
   delay?: number;
+  animation?: 'fade-up' | 'fade-left' | 'fade-right' | 'zoom-in' | 'none';
 }
 
 const RevealOnScroll: React.FC<RevealOnScrollProps> = ({ 
   children,
   threshold = 0.1,
-  delay = 0
+  delay = 0,
+  animation = 'fade-up'
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   
@@ -44,7 +46,7 @@ const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   }, [threshold, delay]);
   
   return (
-    <div ref={ref} className="reveal">
+    <div ref={ref} className={`reveal reveal-${animation}`}>
       {children}
     </div>
   );
