@@ -65,8 +65,8 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
-            <span className="block text-white cursor-glow animate-floating">Sanjay J</span>
-            <span className="text-gradient animate-gradient-shift bg-size-200 cursor-glow">Security Analyst</span>
+            <span className="block text-white animate-floating">Sanjay J</span>
+            <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
           </h1>
           
           <div className="mt-2 mb-6">

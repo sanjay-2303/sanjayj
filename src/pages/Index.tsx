@@ -41,23 +41,8 @@ const Index = () => {
     
     document.addEventListener('click', handleAnchorClick);
     
-    // Add cursor effect for interactive feel
-    const cursor = document.createElement("div");
-    cursor.classList.add("fixed", "w-6", "h-6", "rounded-full", "pointer-events-none", "z-50", "border-2", "border-cyber-accent", "transform", "-translate-x-1/2", "-translate-y-1/2", "opacity-70");
-    cursor.style.mixBlendMode = "difference";
-    document.body.appendChild(cursor);
-    
-    const moveCursor = (e: MouseEvent) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    };
-    
-    document.addEventListener("mousemove", moveCursor);
-    
     return () => {
       document.removeEventListener('click', handleAnchorClick);
-      document.removeEventListener('mousemove', moveCursor);
-      document.body.removeChild(cursor);
     };
   }, []);
 
