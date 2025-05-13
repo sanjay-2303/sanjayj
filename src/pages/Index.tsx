@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Preloader from '../components/Preloader';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -15,6 +15,8 @@ import RevealOnScroll from '../components/RevealOnScroll';
 import ParticleBackground from '../components/ParticleBackground';
 
 const Index = () => {
+  const mainRef = useRef<HTMLElement>(null);
+  
   // Set document title for better SEO
   useEffect(() => {
     document.title = "Sanjay J | Security Analyst | VAPT | SIEM | Cloud Security";
@@ -39,8 +41,23 @@ const Index = () => {
     
     document.addEventListener('click', handleAnchorClick);
     
+    // Add cursor effect for interactive feel
+    const cursor = document.createElement("div");
+    cursor.classList.add("fixed", "w-6", "h-6", "rounded-full", "pointer-events-none", "z-50", "border-2", "border-cyber-accent", "transform", "-translate-x-1/2", "-translate-y-1/2", "opacity-70");
+    cursor.style.mixBlendMode = "difference";
+    document.body.appendChild(cursor);
+    
+    const moveCursor = (e: MouseEvent) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    };
+    
+    document.addEventListener("mousemove", moveCursor);
+    
     return () => {
       document.removeEventListener('click', handleAnchorClick);
+      document.removeEventListener('mousemove', moveCursor);
+      document.body.removeChild(cursor);
     };
   }, []);
 
@@ -50,36 +67,52 @@ const Index = () => {
       <ParticleBackground />
       <Navbar />
       
-      <main className="overflow-hidden">
-        <Hero />
+      <main ref={mainRef} className="overflow-hidden">
+        <section id="home">
+          <Hero />
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <About />
-        </RevealOnScroll>
+        <section id="about">
+          <RevealOnScroll animation="fade-up">
+            <About />
+          </RevealOnScroll>
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <Skills />
-        </RevealOnScroll>
+        <section id="skills">
+          <RevealOnScroll animation="fade-up">
+            <Skills />
+          </RevealOnScroll>
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <Experience />
-        </RevealOnScroll>
+        <section id="experience">
+          <RevealOnScroll animation="fade-up">
+            <Experience />
+          </RevealOnScroll>
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <Education />
-        </RevealOnScroll>
+        <section id="education">
+          <RevealOnScroll animation="fade-up">
+            <Education />
+          </RevealOnScroll>
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <Certifications />
-        </RevealOnScroll>
+        <section id="certifications">
+          <RevealOnScroll animation="fade-up">
+            <Certifications />
+          </RevealOnScroll>
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <Projects />
-        </RevealOnScroll>
+        <section id="projects">
+          <RevealOnScroll animation="fade-up">
+            <Projects />
+          </RevealOnScroll>
+        </section>
         
-        <RevealOnScroll animation="fade-up">
-          <Contact />
-        </RevealOnScroll>
+        <section id="contact">
+          <RevealOnScroll animation="fade-up">
+            <Contact />
+          </RevealOnScroll>
+        </section>
       </main>
       
       <Footer />
