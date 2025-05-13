@@ -11,37 +11,37 @@ const Skills: React.FC = () => {
       title: "SIEM & SOC Monitoring",
       icon: <Database className="h-8 w-8 text-cyber-accent" />,
       skills: ["FortiSIEM", "Wazuh", "IBM X-Force", "Sophos"],
-      description: "Implementation and management of Security Information and Event Management systems for real-time threat monitoring and incident response."
+      description: "Security Information and Event Management for real-time threat monitoring."
     },
     {
       title: "VAPT Tools",
       icon: <Bug className="h-8 w-8 text-cyber-accent" />,
       skills: ["Burp Suite", "OWASP ZAP", "Nmap", "Wireshark"],
-      description: "Expertise in vulnerability assessment and penetration testing tools to identify and remediate security vulnerabilities."
+      description: "Vulnerability assessment and penetration testing tools."
     },
     {
       title: "Cloud Security",
       icon: <Cloud className="h-8 w-8 text-cyber-accent" />,
       skills: ["IAM", "Defender", "CloudTrail", "AWS & Azure (in progress)"],
-      description: "Implementing secure cloud infrastructure with proper access controls, monitoring, and compliance best practices."
+      description: "Secure cloud infrastructure with proper access controls and monitoring."
     },
     {
       title: "GRC",
       icon: <Shield className="h-8 w-8 text-cyber-accent" />,
       skills: ["ISO 27001", "NIST basics", "Risk assessment"],
-      description: "Governance, Risk Management, and Compliance expertise to align security initiatives with industry standards."
+      description: "Governance, Risk Management and Compliance for security alignment."
     },
     {
       title: "DevSecOps & Automation",
       icon: <Code className="h-8 w-8 text-cyber-accent" />,
-      skills: ["CI/CD security awareness", "Python scripting", "Web development basics"],
-      description: "Integration of security practices into the development lifecycle with automation for consistent security testing."
+      skills: ["CI/CD security", "Python scripting", "Web development basics"],
+      description: "Security integration in development lifecycle with automation."
     },
     {
       title: "Soft Skills & Programming",
       icon: <Code className="h-8 w-8 text-cyber-accent" />,
       skills: ["Time Management", "Communication", "Decision Making", "Python", "SQL"],
-      description: "Strong interpersonal abilities combined with programming skills for effective security implementation and team collaboration."
+      description: "Strong interpersonal abilities with programming skills."
     }
   ];
 
@@ -74,7 +74,7 @@ const Skills: React.FC = () => {
                   </h3>
                 </div>
                 
-                <p className="text-gray-400 text-sm mb-4 text-center h-12 line-clamp-2">
+                <p className="text-gray-400 text-sm mb-4 text-center h-10 line-clamp-2">
                   {category.description}
                 </p>
                 

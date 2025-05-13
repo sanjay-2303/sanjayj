@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { Briefcase, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import RevealOnScroll from "./RevealOnScroll";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Experience: React.FC = () => {
   const [expandedItem, setExpandedItem] = useState<number | null>(null);
+  const isMobile = useIsMobile();
   
   const experiences = [
     {
@@ -53,27 +55,27 @@ const Experience: React.FC = () => {
           <div className="inline-flex items-center justify-center p-2 bg-cyber-navy rounded-lg mb-4">
             <Briefcase className="h-6 w-6 text-cyber-accent" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gradient">Experience</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gradient">Experience <span className="text-lg md:text-xl text-cyber-accent">(1+ Year)</span></h2>
           <div className="w-20 h-1 bg-gradient-to-r from-cyber-accent to-cyber-tertiary mt-4"></div>
         </div>
         
         <div className="space-y-8 max-w-4xl mx-auto relative">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyber-accent via-cyber-secondary to-cyber-tertiary transform md:-translate-x-1/2"></div>
+          {/* Timeline line - hidden on mobile */}
+          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyber-accent via-cyber-secondary to-cyber-tertiary transform md:-translate-x-1/2 hidden md:block"></div>
           
           {experiences.map((exp, index) => (
             <RevealOnScroll 
               key={index} 
-              animation={index % 2 === 0 ? 'fade-right' : 'fade-left'} 
+              animation={isMobile ? 'fade-up' : (index % 2 === 0 ? 'fade-right' : 'fade-left')} 
               delay={index * 150}
             >
-              <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center`}>
+              <div className={`flex flex-col ${isMobile ? '' : (index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse')} items-center`}>
                 <div className="w-full md:w-1/2 mb-4 md:mb-0">
                   <Card 
                     className={`cyber-card-interactive border-l-4 border-l-cyber-accent relative cursor-pointer transition-all duration-300 ${expandedItem === index ? 'cyber-border shadow-xl' : ''}`}
                     onClick={() => toggleExpand(index)}
                   >
-                    <div className="absolute -left-3 top-8 w-6 h-6 rounded-full bg-cyber-accent flex items-center justify-center z-10">
+                    <div className="absolute -left-3 top-8 w-6 h-6 rounded-full bg-cyber-accent flex items-center justify-center z-10 hidden md:flex">
                       <div className="w-2 h-2 rounded-full bg-cyber-dark"></div>
                     </div>
                     <CardHeader className="pb-2">

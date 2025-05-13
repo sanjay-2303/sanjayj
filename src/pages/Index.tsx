@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
+import { useIsMobile } from '../hooks/use-mobile';
 import Preloader from '../components/Preloader';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -16,6 +17,7 @@ import ParticleBackground from '../components/ParticleBackground';
 
 const Index = () => {
   const mainRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
   
   // Set document title for better SEO
   useEffect(() => {
@@ -30,8 +32,9 @@ const Index = () => {
           e.preventDefault();
           const element = document.querySelector(href);
           if (element) {
+            const offset = isMobile ? 60 : 80; // Smaller offset on mobile
             window.scrollTo({
-              top: element.getBoundingClientRect().top + window.scrollY - 80, // Adjust for navbar
+              top: element.getBoundingClientRect().top + window.scrollY - offset,
               behavior: 'smooth'
             });
           }
@@ -44,7 +47,7 @@ const Index = () => {
     return () => {
       document.removeEventListener('click', handleAnchorClick);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
@@ -53,7 +56,7 @@ const Index = () => {
       <Navbar />
       
       <main ref={mainRef} className="overflow-hidden">
-        <section id="home">
+        <section id="home" className="pt-16 md:pt-0">
           <Hero />
         </section>
         

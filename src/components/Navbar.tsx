@@ -2,15 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -75,20 +66,15 @@ const Navbar: React.FC = () => {
                 <li key={item.href}>
                   <a 
                     href={item.href}
-                    className={`text-sm font-medium relative group transition-colors duration-300 px-2 py-1 ${
+                    className={`text-sm font-medium relative px-2 py-1 transition-colors duration-300 ${
                       activeSection === item.href.substring(1)
                         ? "text-cyber-accent"
                         : "text-gray-300 hover:text-cyber-accent"
                     }`}
                   >
-                    <span className="relative z-10">{item.label}</span>
-                    <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyber-accent to-cyber-tertiary transform transition-transform duration-300 ${
-                      activeSection === item.href.substring(1)
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                    }`}></span>
+                    {item.label}
                     {activeSection === item.href.substring(1) && (
-                      <span className="absolute -inset-2 bg-cyber-accent/5 rounded-md -z-10"></span>
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyber-accent"></span>
                     )}
                   </a>
                 </li>
@@ -100,9 +86,7 @@ const Navbar: React.FC = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className={`md:hidden relative overflow-hidden transition-all duration-300 ${
-              menuOpen ? "text-cyber-accent" : "text-white"
-            } hover:bg-cyber-navy/50`}
+            className="md:hidden text-white hover:bg-cyber-navy/50"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -124,21 +108,18 @@ const Navbar: React.FC = () => {
         }`}
       >
         <nav className="py-4 px-4">
-          <ul className="space-y-4">
+          <ul className="space-y-1">
             {navItems.map((item) => (
-              <li key={item.href} className="transform transition-transform duration-300 hover:translate-x-2">
+              <li key={item.href}>
                 <a 
                   href={item.href}
-                  className={`block py-2 text-sm font-medium transition-colors relative pl-4 ${
+                  className={`block py-3 px-4 text-sm font-medium rounded-md transition-colors ${
                     activeSection === item.href.substring(1)
-                      ? "text-cyber-accent"
-                      : "text-gray-300 hover:text-cyber-accent"
+                      ? "bg-cyber-navy/70 text-cyber-accent"
+                      : "text-gray-300 hover:bg-cyber-navy/30 hover:text-cyber-accent"
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  <span className={`absolute left-0 top-1/2 -translate-y-1/2 h-5 w-0.5 bg-cyber-accent transition-opacity ${
-                    activeSection === item.href.substring(1) ? "opacity-100" : "opacity-0"
-                  }`}></span>
                   {item.label}
                 </a>
               </li>
