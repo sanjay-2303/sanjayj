@@ -1,8 +1,11 @@
 
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useIsMobile } from "@/hooks/use-mobile";
 import * as THREE from "three";
+
+interface BackgroundSceneProps {
+  isMobile: boolean;
+}
 
 // Floating particles component
 const FloatingParticles = ({ count = 20, isMobile = false }) => {
@@ -67,9 +70,7 @@ const FloatingParticles = ({ count = 20, isMobile = false }) => {
 };
 
 // Main Background Scene Component
-export const BackgroundScene: React.FC = () => {
-  const isMobile = useIsMobile();
-  
+export const BackgroundScene: React.FC<BackgroundSceneProps> = ({ isMobile }) => {
   return (
     <>
       <ambientLight intensity={0.2} />

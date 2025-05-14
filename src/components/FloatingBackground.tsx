@@ -5,10 +5,12 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { BackgroundScene } from "./scenes/BackgroundScene";
 
 const FloatingBackground: React.FC = () => {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="absolute inset-0 -z-10 opacity-50 pointer-events-none">
       <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-        <BackgroundScene />
+        <BackgroundScene isMobile={isMobile} />
       </Canvas>
     </div>
   );
