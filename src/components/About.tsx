@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const About: React.FC = () => {
   const stats = [
-    { label: 'Experience', value: '2+ Years', icon: <FileText className="h-5 w-5 text-cyber-accent" /> },
+    { label: 'Experience', value: '1+ Years', icon: <FileText className="h-5 w-5 text-cyber-accent" /> },
     { label: 'Certifications', value: '3+', icon: <Award className="h-5 w-5 text-cyber-tertiary" /> },
     { label: 'Technologies', value: '12+', icon: <Code className="h-5 w-5 text-cyber-secondary" /> },
     { label: 'Security Focus', value: 'SIEM & VAPT', icon: <Shield className="h-5 w-5 text-green-400" /> },

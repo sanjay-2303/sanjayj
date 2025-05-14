@@ -55,7 +55,7 @@ const Experience: React.FC = () => {
           <div className="inline-flex items-center justify-center p-2 bg-cyber-navy rounded-lg mb-4">
             <Briefcase className="h-6 w-6 text-cyber-accent" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gradient">Experience <span className="text-lg md:text-xl text-cyber-accent">(1+ Year)</span></h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gradient">Experience</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-cyber-accent to-cyber-tertiary mt-4"></div>
         </div>
         
