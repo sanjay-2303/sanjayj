@@ -1,10 +1,7 @@
 
-import React, { useEffect, Suspense, lazy } from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Linkedin, Mail } from "lucide-react";
-
-// Import the 3D canvas component with lazy loading for better performance
-const HeroCanvas = lazy(() => import('./HeroCanvas'));
 
 const Hero: React.FC = () => {
   useEffect(() => {
@@ -51,15 +48,6 @@ const Hero: React.FC = () => {
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 md:pt-0 cyber-grid">
-      {/* 3D Background Animation */}
-      <Suspense fallback={
-        <div className="absolute inset-0 z-10 flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-cyber-accent border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      }>
-        <HeroCanvas />
-      </Suspense>
-      
       {/* Animated background particles */}
       <div className="cyber-particles" id="particles-js"></div>
       
@@ -74,8 +62,8 @@ const Hero: React.FC = () => {
         <div className="absolute w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(13,17,23,0)_0%,rgba(13,17,23,0.8)_80%)]" />
       </div>
       
-      <div className="container mx-auto px-4 z-20 relative">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto backdrop-blur-sm py-8 px-4 rounded-xl bg-cyber-navy/10">
+      <div className="container mx-auto px-4 z-10">
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
             <span className="block text-white animate-floating">Sanjay J</span>
             <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>

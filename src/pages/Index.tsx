@@ -14,7 +14,6 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import RevealOnScroll from '../components/RevealOnScroll';
 import ParticleBackground from '../components/ParticleBackground';
-import ScrollProgressBar from '../components/ScrollProgressBar';
 
 const Index = () => {
   const mainRef = useRef<HTMLElement>(null);
@@ -53,7 +52,6 @@ const Index = () => {
   return (
     <>
       <Preloader />
-      <ScrollProgressBar />
       <ParticleBackground />
       <Navbar />
       

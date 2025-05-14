@@ -1,10 +1,7 @@
 
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { User, FileText, Award, Code, Shield } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-
-// Import the floating background component
-const FloatingBackground = lazy(() => import('./FloatingBackground'));
 
 const About: React.FC = () => {
   const stats = [
@@ -15,13 +12,8 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="section-padding bg-cyber-darker cyber-grid relative overflow-hidden">
-      {/* 3D Floating Background */}
-      <Suspense fallback={null}>
-        <FloatingBackground />
-      </Suspense>
-      
-      <div className="container mx-auto relative z-10">
+    <section id="about" className="section-padding bg-cyber-darker cyber-grid">
+      <div className="container mx-auto">
         <div className="flex flex-col items-center mb-12">
           <div className="inline-flex items-center justify-center p-2 bg-cyber-navy rounded-lg mb-4">
             <User className="h-6 w-6 text-cyber-accent" />
@@ -32,7 +24,7 @@ const About: React.FC = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="cyber-card cyber-card-interactive relative overflow-hidden backdrop-blur-sm">
+            <Card className="cyber-card cyber-card-interactive relative overflow-hidden">
               {/* Abstract cyber decoration */}
               <div className="absolute -right-16 -top-16 w-32 h-32 bg-cyber-accent/5 rounded-full blur-3xl"></div>
               <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-cyber-tertiary/5 rounded-full blur-3xl"></div>
@@ -63,7 +55,7 @@ const About: React.FC = () => {
           </div>
           
           <div>
-            <Card className="cyber-card h-full cyber-card-interactive backdrop-blur-sm">
+            <Card className="cyber-card h-full cyber-card-interactive">
               <CardHeader>
                 <h3 className="text-xl font-semibold text-white">Professional Stats</h3>
               </CardHeader>
