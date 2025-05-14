@@ -1,5 +1,5 @@
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, Text3D, Center, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
@@ -13,7 +13,7 @@ const FloatingIcons = ({ count = 12, isMobile = false }) => {
   const iconsRef = useRef<THREE.Group>(null);
   
   // Generate random positions
-  const icons = useMemo(() => {
+  const icons = React.useMemo(() => {
     const temp = [];
     const radius = isMobile ? 4 : 6;
     
