@@ -1,9 +1,11 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FileText, Linkedin, Mail } from "lucide-react";
+import { FileText, Linkedin, Mail, BriefcaseBusiness } from "lucide-react";
 
 const Hero: React.FC = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  
   useEffect(() => {
     // Cursor follow effect
     const handleMouseMove = (event: MouseEvent) => {
@@ -82,7 +84,26 @@ const Hero: React.FC = () => {
             "Detect. Defend. Disrupt."
           </p>
           
-          <div className="flex flex-wrap justify-center gap-4 mt-6">
+          {/* New Hire Me Button - Positioned above other buttons */}
+          <div className="mb-6">
+            <Button 
+              asChild
+              size="lg"
+              className={`relative overflow-hidden transition-all duration-300 ease-in-out bg-gradient-to-r from-[#F97316] to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#F97316] text-white font-bold py-3 px-8 rounded-full shadow-lg ${isHovering ? 'scale-105 shadow-xl shadow-cyan-700/20' : ''}`}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              <a href="#contact">
+                <div className="absolute inset-0 bg-white/20 transform skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out" />
+                <div className="relative flex items-center space-x-2">
+                  <BriefcaseBusiness className={`h-5 w-5 ${isHovering ? 'animate-bounce' : ''}`} />
+                  <span className="text-lg">Hire Me</span>
+                </div>
+              </a>
+            </Button>
+          </div>
+          
+          <div className="flex flex-wrap justify-center gap-4 mt-2">
             <Button 
               asChild
               size="lg"
