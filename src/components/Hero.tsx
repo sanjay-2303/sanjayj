@@ -2,11 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Linkedin, Mail, BriefcaseBusiness } from "lucide-react";
+import ParallaxEffect from "./ParallaxEffect";
 
 const Hero: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
+    // Trigger entrance animations after component mounts
+    setIsLoaded(true);
+    
     // Cursor follow effect
     const handleMouseMove = (event: MouseEvent) => {
       const glowElements = document.querySelectorAll(".cursor-glow");
@@ -53,6 +58,9 @@ const Hero: React.FC = () => {
       {/* Animated background particles */}
       <div className="cyber-particles" id="particles-js"></div>
       
+      {/* Parallax effect */}
+      <ParallaxEffect />
+      
       {/* Scan lines effect */}
       <div className="scan-lines"></div>
       
@@ -65,7 +73,7 @@ const Hero: React.FC = () => {
       </div>
       
       <div className="container mx-auto px-4 z-10">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+        <div className={`flex flex-col items-center text-center max-w-4xl mx-auto transition-all duration-700 ease-out ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
             <span className="block text-white">Sanjay J</span>
             <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
@@ -102,7 +110,7 @@ const Hero: React.FC = () => {
             </Button>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-4 mt-2">
+          <div className={`flex flex-wrap justify-center gap-4 mt-2 transition-all duration-700 delay-300 ease-out ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <Button 
               asChild
               size="lg"
@@ -148,7 +156,7 @@ const Hero: React.FC = () => {
             </Button>
           </div>
           
-          <div className="mt-12">
+          <div className={`mt-12 transition-all duration-700 delay-500 ease-out ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <a 
               href="#about" 
               className="inline-block animate-bounce rounded-full p-3 bg-cyber-navy/50 text-white/80 hover:bg-cyber-navy hover:text-white transition-colors hover:shadow-lg hover:shadow-cyber-accent/20"
