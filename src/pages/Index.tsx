@@ -15,7 +15,6 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import RevealOnScroll from '../components/RevealOnScroll';
 import ParticleBackground from '../components/ParticleBackground';
-import Background3D from '../components/Background3D';
 
 const Index = () => {
   const mainRef = useRef<HTMLElement>(null);
@@ -54,7 +53,6 @@ const Index = () => {
   return (
     <>
       <Preloader />
-      <Background3D />
       <ParticleBackground />
       <Navbar />
       
