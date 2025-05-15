@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
-            <span className="block text-white animate-floating">Sanjay J</span>
+            <span className="block text-white">Sanjay J</span>
             <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
           </h1>
           
@@ -84,20 +84,20 @@ const Hero: React.FC = () => {
             "Detect. Defend. Disrupt."
           </p>
           
-          {/* New Hire Me Button - Positioned above other buttons */}
+          {/* Updated "Let's Work" button - Professional, no floating effects */}
           <div className="mb-6">
             <Button 
               asChild
               size="lg"
-              className={`relative overflow-hidden transition-all duration-300 ease-in-out bg-gradient-to-r from-[#F97316] to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#F97316] text-white font-bold py-3 px-8 rounded-full shadow-lg ${isHovering ? 'scale-105 shadow-xl shadow-cyan-700/20' : ''}`}
+              className="relative overflow-hidden transition-all duration-300 ease-in-out bg-gradient-to-r from-[#F97316] to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#F97316] text-white font-bold py-3 px-8 rounded-full shadow-lg"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
               <a href="#contact">
                 <div className="absolute inset-0 bg-white/20 transform skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out" />
                 <div className="relative flex items-center space-x-2">
-                  <BriefcaseBusiness className={`h-5 w-5 ${isHovering ? 'animate-bounce' : ''}`} />
-                  <span className="text-lg">Hire Me</span>
+                  <BriefcaseBusiness className="h-5 w-5" />
+                  <span className="text-lg">Let's Work</span>
                 </div>
               </a>
             </Button>
