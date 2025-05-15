@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -117,11 +118,6 @@ export default {
         'spin-slow': {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' }
-        },
-        'parallax-float': {
-          '0%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-15px)' },
-          '100%': { transform: 'translateY(0)' }
         }
 			},
 			animation: {
@@ -130,8 +126,7 @@ export default {
         'fade-in': 'fade-in 0.6s ease-out',
         'pulse-slow': 'pulse-slow 2s infinite',
         'gradient-shift': 'gradient-shift 3s ease infinite',
-        'spin-slow': 'spin-slow 3s linear infinite',
-        'parallax-float': 'parallax-float 6s ease-in-out infinite'
+        'spin-slow': 'spin-slow 3s linear infinite'
 			}
 		}
 	},

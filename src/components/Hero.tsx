@@ -2,16 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Linkedin, Mail, BriefcaseBusiness } from "lucide-react";
-import ParallaxEffect from "./ParallaxEffect";
 
 const Hero: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
-    // Trigger entrance animations after component mounts
-    setIsLoaded(true);
-    
     // Cursor follow effect
     const handleMouseMove = (event: MouseEvent) => {
       const glowElements = document.querySelectorAll(".cursor-glow");
@@ -58,9 +53,6 @@ const Hero: React.FC = () => {
       {/* Animated background particles */}
       <div className="cyber-particles" id="particles-js"></div>
       
-      {/* Parallax effect */}
-      <ParallaxEffect />
-      
       {/* Scan lines effect */}
       <div className="scan-lines"></div>
       
@@ -73,9 +65,9 @@ const Hero: React.FC = () => {
       </div>
       
       <div className="container mx-auto px-4 z-10">
-        <div className={`flex flex-col items-center text-center max-w-4xl mx-auto transition-all duration-700 ease-out ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
-            <span className="block text-white">Sanjay J</span>
+            <span className="block text-white animate-floating">Sanjay J</span>
             <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
           </h1>
           
@@ -92,25 +84,26 @@ const Hero: React.FC = () => {
             "Detect. Defend. Disrupt."
           </p>
           
-          {/* Let's Work Button - Positioned above other buttons */}
+          {/* New Hire Me Button - Positioned above other buttons */}
           <div className="mb-6">
             <Button 
               asChild
               size="lg"
-              className="relative overflow-hidden bg-gradient-to-r from-[#F97316] to-[#0EA5E9] hover:bg-gradient-to-r hover:from-[#0EA5E9] hover:to-[#F97316] text-white font-bold py-3 px-8 rounded-md shadow-lg transition-all duration-300"
+              className={`relative overflow-hidden transition-all duration-300 ease-in-out bg-gradient-to-r from-[#F97316] to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#F97316] text-white font-bold py-3 px-8 rounded-full shadow-lg ${isHovering ? 'scale-105 shadow-xl shadow-cyan-700/20' : ''}`}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
               <a href="#contact">
+                <div className="absolute inset-0 bg-white/20 transform skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out" />
                 <div className="relative flex items-center space-x-2">
-                  <BriefcaseBusiness className="h-5 w-5" />
-                  <span className="text-lg">Let's Work</span>
+                  <BriefcaseBusiness className={`h-5 w-5 ${isHovering ? 'animate-bounce' : ''}`} />
+                  <span className="text-lg">Hire Me</span>
                 </div>
               </a>
             </Button>
           </div>
           
-          <div className={`flex flex-wrap justify-center gap-4 mt-2 transition-all duration-700 delay-300 ease-out ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className="flex flex-wrap justify-center gap-4 mt-2">
             <Button 
               asChild
               size="lg"
@@ -156,7 +149,7 @@ const Hero: React.FC = () => {
             </Button>
           </div>
           
-          <div className={`mt-12 transition-all duration-700 delay-500 ease-out ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className="mt-12">
             <a 
               href="#about" 
               className="inline-block animate-bounce rounded-full p-3 bg-cyber-navy/50 text-white/80 hover:bg-cyber-navy hover:text-white transition-colors hover:shadow-lg hover:shadow-cyber-accent/20"
