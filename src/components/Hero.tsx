@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Linkedin, Mail, BriefcaseBusiness, Shield, Activity, Lock } from "lucide-react";
@@ -173,8 +174,8 @@ const Hero: React.FC = () => {
         const intensity = Math.max(0, 1 - distance / maxDistance);
         
         if (intensity > 0) {
-          element.style.textShadow = 0 0 ${10 + intensity * 20}px rgba(74, 222, 128, ${intensity * 0.8});
-          element.style.transform = scale(${1 + intensity * 0.05});
+          element.style.textShadow = `0 0 ${10 + intensity * 20}px rgba(74, 222, 128, ${intensity * 0.8})`;
+          element.style.transform = `scale(${1 + intensity * 0.05})`;
           element.style.transition = "transform 0.2s ease-out, text-shadow 0.2s ease-out";
         } else {
           element.style.textShadow = "";
@@ -199,7 +200,7 @@ const Hero: React.FC = () => {
     const moveY = (mousePosition.y - centerY) * speed;
     
     return {
-      transform: translate(${moveX}px, ${moveY}px),
+      transform: `translate(${moveX}px, ${moveY}px)`,
       transition: 'transform 0.1s ease-out'
     };
   };
@@ -208,8 +209,8 @@ const Hero: React.FC = () => {
   const ProgressBar = ({ value, color }: { value: number, color: string }) => (
     <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1 overflow-hidden">
       <div 
-        className={h-2.5 rounded-full ${color}} 
-        style={{ width: ${value}%, transition: 'width 1.5s ease-in-out' }}
+        className={`h-2.5 rounded-full ${color}`} 
+        style={{ width: `${value}%`, transition: 'width 1.5s ease-in-out' }}
       />
     </div>
   );
@@ -234,14 +235,14 @@ const Hero: React.FC = () => {
         {/* Additional interactive elements */}
         <div className="absolute w-20 h-20 bg-blue-500/30 blur-xl rounded-full animate-pulse" 
           style={{
-            top: ${50 + Math.sin(Date.now() / 1000) * 10}%,
-            left: ${30 + Math.cos(Date.now() / 1500) * 10}%,
+            top: `${50 + Math.sin(Date.now() / 1000) * 10}%`,
+            left: `${30 + Math.cos(Date.now() / 1500) * 10}%`,
             ...getParallaxStyle(0.05)
           }} />
         <div className="absolute w-16 h-16 bg-purple-500/20 blur-xl rounded-full animate-pulse" 
           style={{
-            bottom: ${30 + Math.sin(Date.now() / 1200) * 8}%,
-            right: ${20 + Math.cos(Date.now() / 1300) * 8}%,
+            bottom: `${30 + Math.sin(Date.now() / 1200) * 8}%`,
+            right: `${20 + Math.cos(Date.now() / 1300) * 8}%`,
             ...getParallaxStyle(0.04),
             animationDelay: "0.7s"
           }} />
