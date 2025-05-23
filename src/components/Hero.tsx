@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { FileText, Linkedin, Mail, BriefcaseBusiness } from "lucide-react";
+import { FileText, Linkedin, Mail, BriefcaseBusiness, Shield, Activity, Lock } from "lucide-react";
 
 const Hero: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
@@ -11,10 +10,20 @@ const Hero: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [securityMetrics, setSecurityMetrics] = useState({
+    detected: 0,
+    blocked: 0,
+    critical: 0,
+    vulnerabilities: 0,
+    threats: 0,
+    securityScore: 0,
+    networkSecurity: 0
+  });
   
   const specialtyTexts = ["VAPT", "SIEM", "Cloud Security", "DevSecOps"];
   const typingRef = useRef<NodeJS.Timeout | null>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
+  const metricsRef = useRef<NodeJS.Timeout | null>(null);
   
   // Handle mouse movement for parallax effect
   useEffect(() => {
@@ -27,6 +36,37 @@ const Hero: React.FC = () => {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+  
+  // Animate security metrics
+  useEffect(() => {
+    // Target final values
+    const targetMetrics = {
+      detected: 92,
+      blocked: 45,
+      critical: 13,
+      vulnerabilities: 1240,
+      threats: 3587,
+      securityScore: 94,
+      networkSecurity: 99.8
+    };
+    
+    // Increment values gradually for animation effect
+    metricsRef.current = setInterval(() => {
+      setSecurityMetrics(prev => ({
+        detected: Math.min(prev.detected + 3, targetMetrics.detected),
+        blocked: Math.min(prev.blocked + 2, targetMetrics.blocked),
+        critical: Math.min(prev.critical + 1, targetMetrics.critical),
+        vulnerabilities: Math.min(prev.vulnerabilities + 40, targetMetrics.vulnerabilities),
+        threats: Math.min(prev.threats + 100, targetMetrics.threats),
+        securityScore: Math.min(prev.securityScore + 3, targetMetrics.securityScore),
+        networkSecurity: Math.min(prev.networkSecurity + 3, targetMetrics.networkSecurity)
+      }));
+    }, 100);
+    
+    return () => {
+      if (metricsRef.current) clearInterval(metricsRef.current);
+    };
   }, []);
   
   // Typewriter effect
@@ -120,6 +160,16 @@ const Hero: React.FC = () => {
     };
   };
 
+  // Progress bar component for dashboard
+  const ProgressBar = ({ value, color }: { value: number, color: string }) => (
+    <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1">
+      <div 
+        className={`h-2.5 rounded-full ${color}`} 
+        style={{ width: `${value}%`, transition: 'width 1s ease-in-out' }}
+      />
+    </div>
+  );
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 md:pt-0 cyber-grid">
       {/* Animated background particles */}
@@ -155,151 +205,200 @@ const Hero: React.FC = () => {
         <div className="absolute w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(13,17,23,0)_0%,rgba(13,17,23,0.8)_80%)]" />
       </div>
       
-      <div className="container mx-auto px-4 z-10 animate-fade-in">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
-            <span className="block text-white">Sanjay J</span>
-            <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
-          </h1>
-          
-          <div className="mt-2 mb-6">
-            <div className="text-sm md:text-base lg:text-lg text-gray-300 font-medium tracking-wider uppercase relative overflow-hidden cyber-border p-4 min-h-[2.5rem]">
-              <span className="text-cyber-accent inline-block">{typewriterText}</span>
-              <span className="inline-block w-1 h-5 bg-cyber-accent ml-1 animate-pulse"></span>
+      <div className="container mx-auto z-10 animate-fade-in">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          {/* Left column - Personal introduction */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="inline-flex px-3 py-1 rounded-full bg-cyber-navy/40 border border-cyber-accent/30 text-xs font-medium mb-4">
+              <span className="text-cyber-accent">Cybersecurity Professional</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
+              <span className="block text-white">Sanjay J</span>
+              <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl mb-6 text-gray-300 max-w-xl">
+              Securing digital landscapes with 
+              <span className="font-semibold text-white"> advanced threat detection</span> & 
+              <span className="font-semibold text-white"> vulnerability assessment</span>
+            </p>
+            
+            <div className="mt-2 mb-6">
+              <div className="text-sm md:text-base lg:text-lg text-gray-300 font-medium tracking-wider relative overflow-hidden cyber-border p-4 min-h-[2.5rem] inline-block">
+                <span className="text-cyber-accent inline-block">{typewriterText}</span>
+                <span className="inline-block w-1 h-5 bg-cyber-accent ml-1 animate-pulse"></span>
+              </div>
+            </div>
+            
+            <p className="text-xl md:text-2xl mb-8 text-cyber-accent font-medium italic cursor-glow">
+              "Detect. Defend. Disrupt."
+            </p>
+            
+            <div className="flex flex-wrap gap-4 mb-8">
+              <Button 
+                asChild
+                size="lg"
+                className="bg-cyber-accent hover:bg-cyber-accent/80 text-black font-medium group relative overflow-hidden"
+              >
+                <a href="#contact">
+                  <span className="absolute inset-0 w-full h-full transition-all duration-300 
+                    ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
+                    from-cyber-accent via-cyber-tertiary to-cyber-accent opacity-30"></span>
+                  <BriefcaseBusiness className="mr-2 h-4 w-4" />
+                  Let's Work
+                </a>
+              </Button>
+              
+              <Button 
+                asChild
+                size="lg"
+                variant="outline" 
+                className="border-cyber-secondary text-cyber-secondary hover:bg-cyber-secondary/10 group relative overflow-hidden"
+              >
+                <a href="https://drive.google.com/file/d/1A51XBahNM1HZ2oRX2XWjMdg2tkkflUbU/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                  <span className="absolute inset-0 w-full h-full transition-all duration-300 
+                    ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
+                    from-cyber-secondary to-cyber-tertiary opacity-20"></span>
+                  <FileText className="mr-2 h-4 w-4" />
+                  View Resume
+                </a>
+              </Button>
             </div>
           </div>
           
-          <p className="text-xl md:text-2xl lg:text-3xl mb-8 text-cyber-accent font-medium italic cursor-glow">
-            "Detect. Defend. Disrupt."
-          </p>
-          
-          {/* Interactive elements */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl mb-8">
-            <div className="p-4 bg-cyber-navy/60 border border-cyber-accent/20 rounded-md backdrop-blur-sm transform transition-all hover:scale-105 hover:border-cyber-accent/50 cursor-pointer flex flex-col items-center">
-              <div className="w-12 h-12 text-cyber-accent mb-2 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
+          {/* Right column - Security Dashboard */}
+          <div className="bg-cyber-navy/30 backdrop-blur-md rounded-lg border border-white/10 p-4 shadow-xl transform transition-all duration-300 hover:shadow-cyber-accent/10" style={getParallaxStyle(0.02)}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Shield className="h-5 w-5 text-cyber-accent" />
+                <h3 className="text-lg font-semibold text-white">Security Dashboard</h3>
               </div>
-              <h3 className="text-lg font-semibold mb-1">Vulnerability Assessment</h3>
-              <p className="text-sm text-gray-400">Identify security weaknesses</p>
+              <div className="flex gap-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+              </div>
             </div>
             
-            <div className="p-4 bg-cyber-navy/60 border border-cyber-secondary/20 rounded-md backdrop-blur-sm transform transition-all hover:scale-105 hover:border-cyber-secondary/50 cursor-pointer flex flex-col items-center">
-              <div className="w-12 h-12 text-cyber-secondary mb-2 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
+            {/* Threat Monitor Panel */}
+            <div className="bg-cyber-navy/70 rounded-md p-3 mb-4 border border-white/5">
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="text-sm font-medium text-gray-300">Threat Monitor</h4>
+                <span className="px-2 py-0.5 rounded bg-cyber-tertiary/20 text-cyber-tertiary text-xs font-medium">
+                  Live
+                </span>
               </div>
-              <h3 className="text-lg font-semibold mb-1">SIEM Solutions</h3>
-              <p className="text-sm text-gray-400">Real-time security monitoring</p>
-            </div>
-            
-            <div className="p-4 bg-cyber-navy/60 border border-cyber-tertiary/20 rounded-md backdrop-blur-sm transform transition-all hover:scale-105 hover:border-cyber-tertiary/50 cursor-pointer flex flex-col items-center">
-              <div className="w-12 h-12 text-cyber-tertiary mb-2 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold mb-1">DevSecOps</h3>
-              <p className="text-sm text-gray-400">Security integrated development</p>
-            </div>
-          </div>
-          
-          {/* Button */}
-          <div className="mb-6">
-            <Button 
-              asChild
-              size="lg"
-              className="relative overflow-hidden transition-all duration-300 ease-in-out bg-gradient-to-r from-[#F97316] to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#F97316] text-white font-bold py-3 px-8 rounded-full shadow-lg"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-            >
-              <a href="#contact">
-                <div className="absolute inset-0 bg-white/20 transform skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out" />
-                <div className="relative flex items-center space-x-2">
-                  <BriefcaseBusiness className="h-5 w-5" />
-                  <span className="text-lg">Let's Work</span>
+              
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div className="bg-cyber-navy/70 rounded p-2">
+                  <div className="text-yellow-500 mb-1">
+                    <Activity className="h-5 w-5 mx-auto" />
+                  </div>
+                  <div className="text-xl font-bold">{securityMetrics.detected}</div>
+                  <div className="text-xs text-gray-400">Detected</div>
                 </div>
-              </a>
-            </Button>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-4 mt-2">
-            <Button 
-              asChild
-              size="lg"
-              className="bg-cyber-accent hover:bg-cyber-accent/80 text-black font-medium group relative overflow-hidden"
-            >
-              <a href="https://drive.google.com/file/d/1A51XBahNM1HZ2oRX2XWjMdg2tkkflUbU/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                <span className="absolute inset-0 w-full h-full transition-all duration-300 
-                  ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
-                  from-cyber-accent via-cyber-tertiary to-cyber-accent opacity-30"></span>
-                <FileText className="mr-2 h-4 w-4" />
-                View Resume
-              </a>
-            </Button>
+                
+                <div className="bg-cyber-navy/70 rounded p-2">
+                  <div className="text-green-500 mb-1">
+                    <Shield className="h-5 w-5 mx-auto" />
+                  </div>
+                  <div className="text-xl font-bold">{securityMetrics.blocked}</div>
+                  <div className="text-xs text-gray-400">Blocked</div>
+                </div>
+                
+                <div className="bg-cyber-navy/70 rounded p-2">
+                  <div className="text-red-500 mb-1">
+                    <Lock className="h-5 w-5 mx-auto" />
+                  </div>
+                  <div className="text-xl font-bold">{securityMetrics.critical}</div>
+                  <div className="text-xs text-gray-400">Critical</div>
+                </div>
+              </div>
+            </div>
             
-            <Button 
-              asChild
-              size="lg"
-              variant="outline" 
-              className="border-cyber-secondary text-cyber-secondary hover:bg-cyber-secondary/10 group relative overflow-hidden"
-            >
-              <a href="https://www.linkedin.com/in/sanjay-j--/" target="_blank" rel="noopener noreferrer">
-                <span className="absolute inset-0 w-full h-full transition-all duration-300 
-                  ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
-                  from-cyber-secondary to-cyber-tertiary opacity-20"></span>
-                <Linkedin className="mr-2 h-4 w-4" />
-                LinkedIn
-              </a>
-            </Button>
+            {/* Security Stats Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-cyber-navy/50 p-3 rounded border border-white/5">
+                <div className="flex items-center gap-2 mb-1">
+                  <Shield className="h-4 w-4 text-yellow-500" />
+                  <span className="text-xs text-gray-300">Vulnerabilities Patched</span>
+                </div>
+                <div className="flex items-end justify-between">
+                  <span className="text-xl font-bold">{securityMetrics.vulnerabilities}+</span>
+                  <span className="text-xs text-green-500 font-medium">+12%</span>
+                </div>
+              </div>
+              
+              <div className="bg-cyber-navy/50 p-3 rounded border border-white/5">
+                <div className="flex items-center gap-2 mb-1">
+                  <Activity className="h-4 w-4 text-purple-500" />
+                  <span className="text-xs text-gray-300">Threats Detected</span>
+                </div>
+                <div className="flex items-end justify-between">
+                  <span className="text-xl font-bold">{securityMetrics.threats.toLocaleString()}</span>
+                  <span className="text-xs text-red-500 font-medium">-8%</span>
+                </div>
+              </div>
+            </div>
             
-            <Button 
-              asChild
-              size="lg"
-              variant="outline" 
-              className="border-cyber-tertiary text-cyber-tertiary hover:bg-cyber-tertiary/10 group relative overflow-hidden"
-            >
-              <a href="mailto:sanjayjeyasekar@gmail.com">
-                <span className="absolute inset-0 w-full h-full transition-all duration-300 
-                  ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
-                  from-cyber-tertiary to-cyber-accent opacity-20"></span>
-                <Mail className="mr-2 h-4 w-4" />
-                Email
-              </a>
-            </Button>
-          </div>
-          
-          <div className="mt-12">
-            <a 
-              href="#about" 
-              className="inline-block animate-bounce rounded-full p-3 bg-cyber-navy/50 text-white/80 hover:bg-cyber-navy hover:text-white transition-colors hover:shadow-lg hover:shadow-cyber-accent/20"
-              aria-label="Scroll down"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </a>
+            {/* Progress bars */}
+            <div className="mt-4">
+              <div className="mb-3">
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">SIEM Implementation</span>
+                  <span className="text-cyber-tertiary">98%</span>
+                </div>
+                <ProgressBar value={98} color="bg-blue-500" />
+              </div>
+              
+              <div className="mb-3">
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Threat Detection</span>
+                  <span className="text-cyber-tertiary">94%</span>
+                </div>
+                <ProgressBar value={94} color="bg-green-500" />
+              </div>
+              
+              <div className="mb-3">
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Incident Response</span>
+                  <span className="text-cyber-tertiary">92%</span>
+                </div>
+                <ProgressBar value={92} color="bg-yellow-500" />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Security metrics display - inspired by the dashboard image */}
-      <div className="absolute bottom-8 left-0 right-0 mx-auto max-w-4xl px-4 hidden md:block">
-        <div className="flex items-center justify-between gap-4 bg-cyber-navy/40 backdrop-blur-sm border border-white/10 rounded-lg p-2 overflow-hidden">
-          <div className="flex items-center gap-2 px-3 py-1">
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-xs text-gray-300">SIEM Implementation: 98%</span>
+        
+        {/* Social links and scroll indicator */}
+        <div className="flex flex-col items-center mt-16">
+          <div className="flex gap-4 mb-8">
+            <a 
+              href="https://www.linkedin.com/in/sanjay-j--/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-white/60 hover:text-cyber-tertiary transition-colors"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
+            <a 
+              href="mailto:sanjayjeyasekar@gmail.com"
+              className="text-white/60 hover:text-cyber-accent transition-colors"
+            >
+              <Mail className="h-5 w-5" />
+            </a>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1">
-            <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
-            <span className="text-xs text-gray-300">Vulnerabilities Patched: 1,240+</span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1">
-            <div className="h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></div>
-            <span className="text-xs text-gray-300">Security Score: 94%</span>
-          </div>
+          
+          <a 
+            href="#about" 
+            className="inline-block animate-bounce rounded-full p-3 bg-cyber-navy/50 text-white/80 hover:bg-cyber-navy hover:text-white transition-colors hover:shadow-lg hover:shadow-cyber-accent/20"
+            aria-label="Scroll down"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
