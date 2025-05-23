@@ -57,9 +57,7 @@ const Index = () => {
       <Navbar />
       
       <main ref={mainRef} className="overflow-hidden">
-        <section id="home" className="pt-16 md:pt-0">
-          <Hero />
-        </section>
+        <Hero />
         
         <section id="about">
           <RevealOnScroll animation="fade-up">

@@ -1,14 +1,9 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Linkedin, Mail, BriefcaseBusiness, Shield, Activity, Lock } from "lucide-react";
 
 const Hero: React.FC = () => {
-  const [isHovering, setIsHovering] = useState(false);
-  const [typewriterText, setTypewriterText] = useState("");
-  const [typewriterIndex, setTypewriterIndex] = useState(0);
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(150);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [securityMetrics, setSecurityMetrics] = useState({
     detected: 0,
@@ -20,10 +15,28 @@ const Hero: React.FC = () => {
     networkSecurity: 0
   });
   
-  const specialtyTexts = ["VAPT", "SIEM", "Cloud Security", "DevSecOps"];
+  // For typewriter effect
+  const [typewriterText, setTypewriterText] = useState("");
+  const [typewriterIndex, setTypewriterIndex] = useState(0);
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+  
+  const specialtyTexts = ["Security Analyst", "VAPT", "SIEM", "Cloud Security", "DevSecOps"];
   const typingRef = useRef<NodeJS.Timeout | null>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Target metrics for the animation
+  const targetMetrics = {
+    detected: 92,
+    blocked: 45,
+    critical: 13,
+    vulnerabilities: 1240,
+    threats: 3587,
+    securityScore: 98,
+    networkSecurity: 99.8
+  };
   
   // Handle mouse movement for parallax effect
   useEffect(() => {
@@ -38,38 +51,70 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
   
-  // Animate security metrics
+  // Animate security metrics with a smoother increment
   useEffect(() => {
-    // Target final values
-    const targetMetrics = {
-      detected: 92,
-      blocked: 45,
-      critical: 13,
-      vulnerabilities: 1240,
-      threats: 3587,
-      securityScore: 94,
-      networkSecurity: 99.8
+    // Calculate steps for each metric based on duration and refresh rate
+    const duration = 2000; // 2 seconds for the animation
+    const refreshRate = 50; // Update every 50ms
+    const steps = duration / refreshRate;
+    
+    const incrementValues = {
+      detected: (targetMetrics.detected) / steps,
+      blocked: (targetMetrics.blocked) / steps,
+      critical: (targetMetrics.critical) / steps,
+      vulnerabilities: (targetMetrics.vulnerabilities) / steps,
+      threats: (targetMetrics.threats) / steps,
+      securityScore: (targetMetrics.securityScore) / steps,
+      networkSecurity: (targetMetrics.networkSecurity) / steps
     };
     
-    // Increment values gradually for animation effect
     metricsRef.current = setInterval(() => {
       setSecurityMetrics(prev => ({
-        detected: Math.min(prev.detected + 3, targetMetrics.detected),
-        blocked: Math.min(prev.blocked + 2, targetMetrics.blocked),
-        critical: Math.min(prev.critical + 1, targetMetrics.critical),
-        vulnerabilities: Math.min(prev.vulnerabilities + 40, targetMetrics.vulnerabilities),
-        threats: Math.min(prev.threats + 100, targetMetrics.threats),
-        securityScore: Math.min(prev.securityScore + 3, targetMetrics.securityScore),
-        networkSecurity: Math.min(prev.networkSecurity + 3, targetMetrics.networkSecurity)
+        detected: prev.detected + incrementValues.detected >= targetMetrics.detected ? 
+                 targetMetrics.detected : prev.detected + incrementValues.detected,
+        blocked: prev.blocked + incrementValues.blocked >= targetMetrics.blocked ? 
+                targetMetrics.blocked : prev.blocked + incrementValues.blocked,
+        critical: prev.critical + incrementValues.critical >= targetMetrics.critical ? 
+                 targetMetrics.critical : prev.critical + incrementValues.critical,
+        vulnerabilities: prev.vulnerabilities + incrementValues.vulnerabilities >= targetMetrics.vulnerabilities ? 
+                        targetMetrics.vulnerabilities : prev.vulnerabilities + incrementValues.vulnerabilities,
+        threats: prev.threats + incrementValues.threats >= targetMetrics.threats ? 
+                targetMetrics.threats : prev.threats + incrementValues.threats,
+        securityScore: prev.securityScore + incrementValues.securityScore >= targetMetrics.securityScore ? 
+                      targetMetrics.securityScore : prev.securityScore + incrementValues.securityScore,
+        networkSecurity: prev.networkSecurity + incrementValues.networkSecurity >= targetMetrics.networkSecurity ? 
+                        targetMetrics.networkSecurity : prev.networkSecurity + incrementValues.networkSecurity
       }));
+    }, refreshRate);
+    
+    // Check if all values have reached their targets and clear interval
+    const checkCompletion = setInterval(() => {
+      setSecurityMetrics(prev => {
+        const allComplete = 
+          Math.round(prev.detected) >= targetMetrics.detected &&
+          Math.round(prev.blocked) >= targetMetrics.blocked &&
+          Math.round(prev.critical) >= targetMetrics.critical &&
+          Math.round(prev.vulnerabilities) >= targetMetrics.vulnerabilities &&
+          Math.round(prev.threats) >= targetMetrics.threats &&
+          Math.round(prev.securityScore) >= targetMetrics.securityScore &&
+          Math.round(prev.networkSecurity * 10) / 10 >= targetMetrics.networkSecurity;
+        
+        if (allComplete && metricsRef.current) {
+          clearInterval(metricsRef.current);
+          metricsRef.current = null;
+        }
+        
+        return prev;
+      });
     }, 100);
     
     return () => {
       if (metricsRef.current) clearInterval(metricsRef.current);
+      clearInterval(checkCompletion);
     };
   }, []);
   
-  // Typewriter effect
+  // Improved typewriter effect
   useEffect(() => {
     const currentText = specialtyTexts[currentTextIndex];
     
@@ -162,10 +207,10 @@ const Hero: React.FC = () => {
 
   // Progress bar component for dashboard
   const ProgressBar = ({ value, color }: { value: number, color: string }) => (
-    <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1">
+    <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1 overflow-hidden">
       <div 
         className={`h-2.5 rounded-full ${color}`} 
-        style={{ width: `${value}%`, transition: 'width 1s ease-in-out' }}
+        style={{ width: `${value}%`, transition: 'width 1.5s ease-in-out' }}
       />
     </div>
   );
@@ -205,7 +250,7 @@ const Hero: React.FC = () => {
         <div className="absolute w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(13,17,23,0)_0%,rgba(13,17,23,0.8)_80%)]" />
       </div>
       
-      <div className="container mx-auto z-10 animate-fade-in">
+      <div className="container mx-auto z-10 animate-fade-in px-4 md:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Left column - Personal introduction */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -215,7 +260,6 @@ const Hero: React.FC = () => {
             
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4">
               <span className="block text-white">Sanjay J</span>
-              <span className="text-gradient animate-gradient-shift bg-size-200">Security Analyst</span>
             </h1>
             
             <p className="text-lg md:text-xl mb-6 text-gray-300 max-w-xl">
@@ -224,8 +268,8 @@ const Hero: React.FC = () => {
               <span className="font-semibold text-white"> vulnerability assessment</span>
             </p>
             
-            <div className="mt-2 mb-6">
-              <div className="text-sm md:text-base lg:text-lg text-gray-300 font-medium tracking-wider relative overflow-hidden cyber-border p-4 min-h-[2.5rem] inline-block">
+            <div className="mt-2 mb-6 min-h-[60px]">
+              <div className="text-sm md:text-base lg:text-lg text-gray-300 font-medium tracking-wider relative overflow-hidden cyber-border p-4 bg-cyber-navy/30 rounded">
                 <span className="text-cyber-accent inline-block">{typewriterText}</span>
                 <span className="inline-block w-1 h-5 bg-cyber-accent ml-1 animate-pulse"></span>
               </div>
@@ -239,12 +283,9 @@ const Hero: React.FC = () => {
               <Button 
                 asChild
                 size="lg"
-                className="bg-cyber-accent hover:bg-cyber-accent/80 text-black font-medium group relative overflow-hidden"
+                className="bg-cyber-accent hover:bg-cyber-accent/80 text-black font-medium"
               >
                 <a href="#contact">
-                  <span className="absolute inset-0 w-full h-full transition-all duration-300 
-                    ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
-                    from-cyber-accent via-cyber-tertiary to-cyber-accent opacity-30"></span>
                   <BriefcaseBusiness className="mr-2 h-4 w-4" />
                   Let's Work
                 </a>
@@ -254,12 +295,9 @@ const Hero: React.FC = () => {
                 asChild
                 size="lg"
                 variant="outline" 
-                className="border-cyber-secondary text-cyber-secondary hover:bg-cyber-secondary/10 group relative overflow-hidden"
+                className="border-cyber-secondary text-cyber-secondary hover:bg-cyber-secondary/10"
               >
                 <a href="https://drive.google.com/file/d/1A51XBahNM1HZ2oRX2XWjMdg2tkkflUbU/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                  <span className="absolute inset-0 w-full h-full transition-all duration-300 
-                    ease-out transform translate-x-full group-hover:translate-x-0 bg-gradient-to-r 
-                    from-cyber-secondary to-cyber-tertiary opacity-20"></span>
                   <FileText className="mr-2 h-4 w-4" />
                   View Resume
                 </a>
@@ -295,7 +333,7 @@ const Hero: React.FC = () => {
                   <div className="text-yellow-500 mb-1">
                     <Activity className="h-5 w-5 mx-auto" />
                   </div>
-                  <div className="text-xl font-bold">{securityMetrics.detected}</div>
+                  <div className="text-xl font-bold">{Math.round(securityMetrics.detected)}</div>
                   <div className="text-xs text-gray-400">Detected</div>
                 </div>
                 
@@ -303,7 +341,7 @@ const Hero: React.FC = () => {
                   <div className="text-green-500 mb-1">
                     <Shield className="h-5 w-5 mx-auto" />
                   </div>
-                  <div className="text-xl font-bold">{securityMetrics.blocked}</div>
+                  <div className="text-xl font-bold">{Math.round(securityMetrics.blocked)}</div>
                   <div className="text-xs text-gray-400">Blocked</div>
                 </div>
                 
@@ -311,21 +349,21 @@ const Hero: React.FC = () => {
                   <div className="text-red-500 mb-1">
                     <Lock className="h-5 w-5 mx-auto" />
                   </div>
-                  <div className="text-xl font-bold">{securityMetrics.critical}</div>
+                  <div className="text-xl font-bold">{Math.round(securityMetrics.critical)}</div>
                   <div className="text-xs text-gray-400">Critical</div>
                 </div>
               </div>
             </div>
             
             {/* Security Stats Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="bg-cyber-navy/50 p-3 rounded border border-white/5">
                 <div className="flex items-center gap-2 mb-1">
                   <Shield className="h-4 w-4 text-yellow-500" />
                   <span className="text-xs text-gray-300">Vulnerabilities Patched</span>
                 </div>
                 <div className="flex items-end justify-between">
-                  <span className="text-xl font-bold">{securityMetrics.vulnerabilities}+</span>
+                  <span className="text-xl font-bold">{Math.round(securityMetrics.vulnerabilities)}+</span>
                   <span className="text-xs text-green-500 font-medium">+12%</span>
                 </div>
               </div>
@@ -336,20 +374,20 @@ const Hero: React.FC = () => {
                   <span className="text-xs text-gray-300">Threats Detected</span>
                 </div>
                 <div className="flex items-end justify-between">
-                  <span className="text-xl font-bold">{securityMetrics.threats.toLocaleString()}</span>
+                  <span className="text-xl font-bold">{Math.round(securityMetrics.threats).toLocaleString()}</span>
                   <span className="text-xs text-red-500 font-medium">-8%</span>
                 </div>
               </div>
             </div>
             
             {/* Progress bars */}
-            <div className="mt-4">
+            <div className="mt-2">
               <div className="mb-3">
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-gray-300">SIEM Implementation</span>
-                  <span className="text-cyber-tertiary">98%</span>
+                  <span className="text-cyber-tertiary">{Math.round(securityMetrics.securityScore)}%</span>
                 </div>
-                <ProgressBar value={98} color="bg-blue-500" />
+                <ProgressBar value={securityMetrics.securityScore} color="bg-blue-500" />
               </div>
               
               <div className="mb-3">
@@ -372,19 +410,21 @@ const Hero: React.FC = () => {
         </div>
         
         {/* Social links and scroll indicator */}
-        <div className="flex flex-col items-center mt-16">
-          <div className="flex gap-4 mb-8">
+        <div className="flex flex-col items-center mt-8 md:mt-16">
+          <div className="flex gap-4 mb-6">
             <a 
               href="https://www.linkedin.com/in/sanjay-j--/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-white/60 hover:text-cyber-tertiary transition-colors"
+              aria-label="LinkedIn Profile"
             >
               <Linkedin className="h-5 w-5" />
             </a>
             <a 
               href="mailto:sanjayjeyasekar@gmail.com"
               className="text-white/60 hover:text-cyber-accent transition-colors"
+              aria-label="Email"
             >
               <Mail className="h-5 w-5" />
             </a>
